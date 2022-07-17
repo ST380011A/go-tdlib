@@ -27,7 +27,7 @@ So you can use every single type and method in Tdlib.
 
 First of all you need to clone the Tdlib repo and build it:
 ```bash
-git clone git@github.com:tdlib/td.git --depth 1
+git clone https://github.com/tdlib/td.git --depth 1
 cd td
 mkdir build
 cd build
@@ -40,6 +40,11 @@ make install
 
 If hit any build errors, refer to [Tdlib build instructions](https://github.com/tdlib/td#building)
 I'm using static linking against tdlib so it won't require to build the whole tdlib source files.
+
+Now install with the command:
+```bash
+go get github.com/ST380011A/go-tdlib@latest
+```
 
 ## Docker
 You can use the prebuilt tdlib image and Go image of your liking:
