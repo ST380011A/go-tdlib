@@ -565,7 +565,7 @@ const (
 	TextEntityTypeHashtagType        TextEntityTypeEnum = "textEntityTypeHashtag"
 	TextEntityTypeCashtagType        TextEntityTypeEnum = "textEntityTypeCashtag"
 	TextEntityTypeBotCommandType     TextEntityTypeEnum = "textEntityTypeBotCommand"
-	TextEntityTypeURLType            TextEntityTypeEnum = "textEntityTypeURL"
+	TextEntityTypeUrlType            TextEntityTypeEnum = "textEntityTypeUrl"
 	TextEntityTypeEmailAddressType   TextEntityTypeEnum = "textEntityTypeEmailAddress"
 	TextEntityTypePhoneNumberType    TextEntityTypeEnum = "textEntityTypePhoneNumber"
 	TextEntityTypeBankCardNumberType TextEntityTypeEnum = "textEntityTypeBankCardNumber"
@@ -576,7 +576,7 @@ const (
 	TextEntityTypeCodeType           TextEntityTypeEnum = "textEntityTypeCode"
 	TextEntityTypePreType            TextEntityTypeEnum = "textEntityTypePre"
 	TextEntityTypePreCodeType        TextEntityTypeEnum = "textEntityTypePreCode"
-	TextEntityTypeTextURLType        TextEntityTypeEnum = "textEntityTypeTextURL"
+	TextEntityTypeTextURLType        TextEntityTypeEnum = "textEntityTypeTextUrl"
 	TextEntityTypeMentionNameType    TextEntityTypeEnum = "textEntityTypeMentionName"
 )
 
@@ -5974,7 +5974,7 @@ func (secretChat *SecretChat) UnmarshalJSON(b []byte) error {
 // MessageSenderUser The message was sent by a known user
 type MessageSenderUser struct {
 	tdCommon
-	UserID int32 `json:"user_id"` // Identifier of the user that sent the message
+	UserID int64 `json:"user_id"` // Identifier of the user that sent the message
 }
 
 // MessageType return the string telegram-type of MessageSenderUser
@@ -5985,7 +5985,7 @@ func (messageSenderUser *MessageSenderUser) MessageType() string {
 // NewMessageSenderUser creates a new MessageSenderUser
 //
 // @param userID Identifier of the user that sent the message
-func NewMessageSenderUser(userID int32) *MessageSenderUser {
+func NewMessageSenderUser(userID int64) *MessageSenderUser {
 	messageSenderUserTemp := MessageSenderUser{
 		tdCommon: tdCommon{Type: "messageSenderUser"},
 		UserID:   userID,
@@ -6424,7 +6424,7 @@ func (messageSendingStateFailed *MessageSendingStateFailed) GetMessageSendingSta
 type Message struct {
 	tdCommon
 	ID                      int64                   `json:"id"`                           // Message identifier; unique for the chat to which the message belongs
-	Sender                  MessageSender           `json:"sender"`                       // The sender of the message
+	Sender                  MessageSender           `json:"sender_id"`                       // The sender of the message
 	ChatID                  int64                   `json:"chat_id"`                      // Chat identifier
 	SendingState            MessageSendingState     `json:"sending_state"`                // Information about the sending state of the message; may be null
 	SchedulingState         MessageSchedulingState  `json:"scheduling_state"`             // Information about the scheduling state of the message; may be null
@@ -6598,7 +6598,7 @@ func (message *Message) UnmarshalJSON(b []byte) error {
 	message.MediaAlbumID = tempObj.MediaAlbumID
 	message.RestrictionReason = tempObj.RestrictionReason
 
-	fieldSender, _ := unmarshalMessageSender(objMap["sender"])
+	fieldSender, _ := unmarshalMessageSender(objMap["sender_id"])
 	message.Sender = fieldSender
 
 	fieldSendingState, _ := unmarshalMessageSendingState(objMap["sending_state"])
@@ -15435,7 +15435,7 @@ func NewTextEntityTypeURL() *TextEntityTypeURL {
 
 // GetTextEntityTypeEnum return the enum type of this object
 func (textEntityTypeURL *TextEntityTypeURL) GetTextEntityTypeEnum() TextEntityTypeEnum {
-	return TextEntityTypeURLType
+	return TextEntityTypeUrlType
 }
 
 // TextEntityTypeEmailAddress An email address
@@ -33816,7 +33816,7 @@ func unmarshalTextEntityType(rawMsg *json.RawMessage) (TextEntityType, error) {
 		err := json.Unmarshal(*rawMsg, &textEntityTypeBotCommand)
 		return &textEntityTypeBotCommand, err
 
-	case TextEntityTypeURLType:
+	case TextEntityTypeUrlType:
 		var textEntityTypeURL TextEntityTypeURL
 		err := json.Unmarshal(*rawMsg, &textEntityTypeURL)
 		return &textEntityTypeURL, err
