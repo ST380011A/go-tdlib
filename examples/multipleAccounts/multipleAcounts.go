@@ -11,7 +11,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Arman92/go-tdlib"
+	"github.com/ST380011A/go-tdlib"
 )
 
 var allChats []*tdlib.Chat
