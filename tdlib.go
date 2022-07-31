@@ -108,6 +108,12 @@ func NewClient(config Config) *Client {
 					// trying to prevent memory leak
 					close(waiter)
 				}
+				// stop calling td_json_client_receive for correct close client instance
+				// https://github.com/tdlib/td/issues/594#issuecomment-501924145
+				msg := string(updateBytes)
+				if len(msg) > 35 && msg[:35] == `{"@type":"authorizationStateClosed"` {
+					return
+				}
 			} else {
 				// does new updates has @type field?
 				if msgType, hasType := updateData["@type"]; hasType {
