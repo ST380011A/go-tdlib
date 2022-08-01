@@ -139,6 +139,11 @@ func NewClient(config Config) *Client {
 						}
 					}
 					client.receiverLock.Unlock()
+					// stop calling td_json_client_receive for correct close client instance
+					msg := string(updateBytes)
+					if msg == `{"@type":"updateAuthorizationState","authorization_state":{"@type":"authorizationStateClosed"}}` {
+						return
+					}
 				}
 			}
 		}
